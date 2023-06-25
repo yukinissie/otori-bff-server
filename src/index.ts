@@ -1,6 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { Book, Query, Status } from './generated/graphql';
+import { Book, Query } from './generated/graphql';
 
 const typeDefs = `#graphql
   enum Status {
@@ -20,6 +20,12 @@ const typeDefs = `#graphql
   }
 `;
 
+enum Status {
+  Unread = 'UNREAD',
+  Reading = 'READING',
+  Readed = 'READED',
+}
+
 const books: Book[] = [
   {
     title: 'The Awakening',
@@ -35,9 +41,9 @@ const books: Book[] = [
 
 const bookResolver: () => Book[] = () => books;
 
-const resolvers: { Query: Query } = {
+const resolvers = {
   Query: {
-    books: bookResolver(),
+    books: bookResolver,
   },
 };
 
